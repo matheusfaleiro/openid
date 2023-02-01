@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">OAuth Reference</string>
+
+    <string name="title_login_button">Login</string>
+    <string name="title_use_token_button">Use Token with API</string>
+    <string name="title_logout_button">Logout</string>
+</resources>

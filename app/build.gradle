@@ -1,0 +1,80 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 33
+    buildToolsVersion "30.0.3"
+
+    namespace 'dev.matheusfaleiro.salesforce'
+
+    defaultConfig {
+        applicationId "dev.matheusfaleiro.salesforce"
+        minSdkVersion 24
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+
+    flavorDimensions "main"
+    productFlavors {
+        app {
+            dimension "main"
+            def redirectUri = "matheus://dev.matheusfaleiro.salesforce:/oauth2redirect"
+            android.defaultConfig.manifestPlaceholders = [
+                    'redirect_uri'         : redirectUri,
+                    'appAuthRedirectScheme': redirectUri
+            ]
+            buildConfigField "String", 'OAUTH_CLIENT_ID', '"3MVG9vvlaB0y1YsLC.JZwBRdAZisrnq4IIl2KOwseW1at.7LeqkLWwOjOjykNtxhBSft9HMEUyM_o0rl6snKm"'
+            buildConfigField "String", 'OAUTH_REDIRECT_URI', "\"${redirectUri}\""
+            buildConfigField "String", 'OAUTH_AUTHORIZATION_ENDPOINT_URI', "\"https://mheisterberg-230126-demo.my.site.com/androidpoc/services/oauth2/authorize\""
+            buildConfigField "String", 'OAUTH_TOKEN_ENDPOINT_URI', "\"https://mheisterberg-230126-demo.my.site.com/androidpoc/services/oauth2/token\""
+            buildConfigField "String", 'OAUTH_END_SESSION_URI', "\"https://mheisterberg-230126-demo.my.site.com/androidpoc/services/auth/idp/oidc/logout\""
+            buildConfigField "String", 'OAUTH_SCOPES', "\"openid\""
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    namespace 'com.adein.oauthreference'
+}
+
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
+    implementation 'net.openid:appauth:0.11.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
